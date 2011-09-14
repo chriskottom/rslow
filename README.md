@@ -17,10 +17,6 @@ based on critieria like HTTP request and response parameters, page structure,
 number and size of requested resources, etc.
 
 
-## Sample Code
-See the examples folder.
-
-
 ## Architecture / Design Considerations
 The general method of evaluating a web page will involve two distinct processing
 steps: building the resource tree and evaluation.
@@ -32,6 +28,16 @@ TBD
 
 ### Evaluation
 TBD
+
+
+## Sample Code
+Try running the example program.  At present, it implements and configures a
+simple ruleset with only a single rule, but it demonstrates the basic flow
+described above and the method of configuration of rule and scoring parameters.
+
+```ruby
+./examples/simple_test.rb ./examples/simple_ruleset.yml URL
+```
 
 
 ## Future Enhancements
