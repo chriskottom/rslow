@@ -5,3 +5,6 @@
 # Ruby / Rubygems
 *.gem
 
+# Bundler
+vendor/bundle
+.bundle
