@@ -36,6 +36,7 @@ TBD
 
 ## Future Enhancements
 
+- Tests
 - Refactoring for more efficient processing, better performance
 - More out-of-box rules
 - Packaging as a gem
