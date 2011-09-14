@@ -36,7 +36,7 @@ simple ruleset with only a single rule, but it demonstrates the basic flow
 described above and the method of configuration of rule and scoring parameters.
 
 ```ruby
-./examples/simple_test.rb ./examples/simple_ruleset.yml URL
+./examples/simple_test.rb ./examples/simple_ruleset.yml <YOUR_URL_HERE>
 ```
 
 
