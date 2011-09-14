@@ -22,11 +22,16 @@ See the examples folder.
 
 
 ## Architecture / Design Considerations
+The general method of evaluating a web page will involve two distinct processing
+steps: building the resource tree and evaluation.
 
-- Ruleset configuration written in YAML
-- Nokogiri for parsing HTML documents
-- Net/HTTP for capturing HTTP request and response
-Programmatic output will be delivered as JSON.
+
+### Building the Resource Tree
+TBD
+
+
+### Evaluation
+TBD
 
 
 ## Future Enhancements
@@ -35,7 +40,7 @@ Programmatic output will be delivered as JSON.
 - More out-of-box rules
 - Packaging as a gem
 - Create a simple interactive command-line client
-- JSON interface
+- JSON output
 
 
 ## References
