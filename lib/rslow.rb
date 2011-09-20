@@ -1,5 +1,7 @@
 $:.unshift(File.dirname(__FILE__))
 
+require "rslow/rslow"
+
 require "rslow/resource"
 require "rslow/resources/parsable_resource"
 require "rslow/resources/html_resource"
