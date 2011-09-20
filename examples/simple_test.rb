@@ -2,10 +2,17 @@
 
 $:.unshift File.join(File.dirname(__FILE__), "/../lib")
 require "rslow"
+require "yaml"
 
 
 ruleset_file = ARGV.shift
-ruleset = RSlow::Ruleset.new(ruleset_file)
+rule_config = YAML.load_file(ruleset_file)
+
+ruleset = RSlow::Ruleset.new(:simple) do
+  rule :RequestCount, rule_config.first["rule_params"]
+end
+
+#ruleset = RSlow::Ruleset.new(ruleset_file)
 puts "Ruleset:  #{ ruleset.count } rules loaded from #{ ruleset_file }"
 
 url = ARGV.shift

@@ -1,28 +1,26 @@
+require "delegate"
+
 module RSlow
-  class Rule
-    attr_accessor  :name, :points, :weight
+  class Rule < DelegateClass(Hash)
 
-    def initialize(params={})
-      @params = params
-      @name = @params["name"]
-      @points = @params["points"]
-      @weight = @params["weight"]
-    end
+    # Generate a Rule using the requested implementation class
+    # and initialized with the passed options hash.
+    def self.generate(type, options={})
+      rule_class = RSlow::Rules.const_get(type)
 
-    def grade
-      if score >= 90
-        "A"
-      elsif score >= 80
-        "B"
-      elsif score >= 70
-        "C"
-      elsif score >= 60
-        "D"
-      elsif score >= 50
-        "E"
+      rule_class.new(options)
+    rescue NameError => error
+      if type !~ /Rule\Z/
+        type = (type.to_s + "Rule").to_sym
+        retry
       else
-        "F"
+        raise error
       end
     end
+
+    def initialize(options={})
+      super(options)
+    end
+
   end
 end
