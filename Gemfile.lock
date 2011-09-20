@@ -1,10 +1,12 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    json (1.6.1)
     nokogiri (1.5.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  json
   nokogiri
