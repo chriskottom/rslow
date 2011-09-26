@@ -2,6 +2,7 @@ require "delegate"
 
 module RSlow
   class Rule < DelegateClass(Hash)
+    MAX_SCORE = 100
 
     # Generate a Rule using the requested implementation class
     # and initialized with the passed options hash.
