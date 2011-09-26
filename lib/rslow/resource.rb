@@ -4,27 +4,42 @@ require "uri"
 
 
 module RSlow
-  class Resource
-    attr_accessor  :url, :headers, :code, :message, :contents
-    attr_accessor  :parent
+  module Resource
+    attr_accessor  :parent, :url, :headers, :code, :message, :contents
 
     def initialize(url, parent=nil)
       @parent = parent
-      url = URI.escape(url)
-      if url =~ /\Ahttp:\/\//
-        @url = URI.parse(url)
-      else
-        @url = parent.url.merge(url)
-      end
 
-      request = Net::HTTP.new(@url.host, @url.port)
-      request.use_ssl = true if @url.scheme == "https"
-      response = request.get(@url.request_uri)
+      parse_url_string(url)
+
+      response = request_resource
 
       @headers = response.to_hash
       @code = response.code
       @message = response.message
       @contents = response.body
+
+      #
+      #  TO-DO: try to improve this construct
+      #
+      setup if self.class.method_defined?(:setup)
     end
+
+    private
+    def parse_url_string(url)
+      url = URI.escape(url)
+      if url =~ /\Ahttp:\/\//
+        @url = URI.parse(url)
+      else
+        @url = @parent.url.merge(url)
+      end
+    end
+
+    def request_resource
+      request = Net::HTTP.new(@url.host, @url.port)
+      request.use_ssl = true if @url.scheme == "https"
+      request.get(@url.request_uri)
+    end
+
   end
 end

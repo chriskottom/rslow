@@ -1,10 +1,13 @@
+require_relative "../resource"
+
 module RSlow
   module Resources
-    class ParsableResource < Resource
+    class ParsableResource
+      include Resource
+
       attr_accessor  :children
 
-      def initialize(url, parent=nil)
-        super
+      def setup
         @children = []
       end
     end

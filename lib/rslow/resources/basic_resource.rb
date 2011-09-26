@@ -1,6 +1,6 @@
 module RSlow
   module Resources
-    class JsResource
+    class BasicResource
       include Resource
     end
   end

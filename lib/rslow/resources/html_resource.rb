@@ -3,11 +3,14 @@ require "nokogiri"
 
 module RSlow
   module Resources
-    class HtmlResource < ParsableResource
-      attr_accessor  :doc, :scripts, :stylesheets, :images
+    class HtmlResource
+      include Resource
 
-      def initialize(url)
-        super
+      attr_accessor  :doc, :scripts, :stylesheets, :images, :children
+
+      def setup
+        @scripts, @stylesheets, @images, @children = [], [], [], []
+
         @doc = Nokogiri::HTML(@contents)
         fetch_script_resources
         fetch_stylesheet_resources
@@ -17,17 +20,15 @@ module RSlow
 
       private
       def fetch_script_resources
-        @scripts = []
         @doc.xpath(".//script").each do |js|
           url = js["src"]
-          res = JsResource.new(url, self) unless url.nil? || url.empty?
+          res = BasicResource.new(url, self) unless url.nil? || url.empty?
           @scripts << res
           @children << res
         end 
       end
 
       def fetch_stylesheet_resources
-        @stylesheets = []
         @doc.xpath(".//link").each do |css|
           next unless css["rel"] == "stylesheet"
           url = css["href"]
@@ -38,10 +39,9 @@ module RSlow
       end
 
       def fetch_image_resources
-        @images = []
         @doc.xpath(".//img").each do |img|
           url = img["src"]
-          res = Resource.new(url, self) unless url.nil? || url.empty?
+          res = BasicResource.new(url, self) unless url.nil? || url.empty?
           @images << res
           @children << res
         end
