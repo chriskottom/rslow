@@ -8,6 +8,7 @@ require "rslow/grading"
 require "rslow/rule"
 require "rslow/rules/request_count_rule"
 require "rslow/rules/gzip_rule"
+require "rslow/rules/dom_elements_rule"
 
 require "rslow/resource"
 require "rslow/resources/basic_resource"
