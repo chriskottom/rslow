@@ -37,16 +37,11 @@ module RSlow
 
     private
     def compute_weighted_average(scores, weights)
-      max_composite_score = RSlow::Rule::MAX_SCORE * weights.reduce(:+)
-
-      composite_score = 0
-      scores.each_with_index do |score, index|
-        composite_score += score * weights[index]
-      end
-
-      normalized_score = (composite_score.to_f / max_composite_score) * 
-                           RSlow::Rule::MAX_SCORE
-      normalized_score.round(0)
+      total_weight = weights.reduce(:+)
+      weighted_total_score = weights.zip(scores).
+                                     map { |parts| parts[0] * parts[1] }.
+                                     reduce(:+)
+      (weighted_total_score.to_f / total_weight).round(0)
     end
   end
 end

@@ -16,6 +16,11 @@ module TestHelper
   HTTP_SUCCESS      = { code: "200", message: "OK" }
   GIF_SUCCESS       = HTTP_SUCCESS.merge({ :"Content-Type" => "image/gif" })
 
+  RULE_CONFIG = [ 
+    { type: :"RuleOne",  weight: 10, evaluate: { score: 50 } },
+    { type: :"RuleTwo",  weight:  5, evaluate: { score: 75 } },
+    { type: :"RuleTres", weight:  8, evaluate: { score: 90 } }
+  ]
 
   def mock_http_response
     http_mock = mock("Net::HTTPResponse")
@@ -42,6 +47,23 @@ module TestHelper
                      body:         "",
                      content_type: GIF_SUCCESS[:"Content-Type"])
     image_mock
+  end
+
+  def mock_rules
+    rule_mocks = []
+    RULE_CONFIG.each do |config|
+      rule_mock = mock("RSlow::Rule")
+      rule_mock.stubs(config)
+      rule_mock.stubs(:[]).with(:weight).returns(config[:weight])
+      rule_mocks << rule_mock
+    end
+    rule_mocks
+  end
+
+  def weighted_average_of_fake_scores(scores, weights)
+    total_weight = weights.reduce(:+)
+    total_weighted_scores = weights.zip(scores).map { |f| f[0] * f[1] }.reduce(:+)
+    (total_weighted_scores.to_f / total_weight).round(0)
   end
 end
 
