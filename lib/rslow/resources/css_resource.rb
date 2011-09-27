@@ -9,7 +9,6 @@ module RSlow
       attr_accessor :children
 
       def setup
-        @children = []
         fetch_css_images
       end
 
@@ -21,8 +20,9 @@ module RSlow
 
       private
       def fetch_css_images
-        css_content = self.contents
-        image_urls = css_content.scan(/url\(([^\)]*)\)/).flatten
+        @children = []
+
+        image_urls = @contents.scan(/url\(([^\)]*)\)/).flatten
         image_urls.each do |url|
           unless url.nil? || url.empty?
             res = RSlow::Resources::BasicResource.new(url, self) rescue nil
