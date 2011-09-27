@@ -25,6 +25,10 @@ module RSlow
       setup if self.class.method_defined?(:setup)
     end
 
+    def content_type
+      @headers["Content-Type"]
+    end
+
     private
     def parse_url_string(url)
       url = URI.escape(url)
