@@ -18,5 +18,9 @@ RSlow.configure do
          max_allowed_nodes: 900,
          range:             250,
          points_per_range:  10
+    rule :UrlRedirect,                               # creates still another Rule
+         title:             "Avoid URL redirects",
+         weight:            4,
+         deduction_per_300: 10
   end
 end
