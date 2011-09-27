@@ -12,5 +12,11 @@ RSlow.configure do
          title:     "Compress components with GZip",
          weight:    8,
          deduction: 11
+    rule :DomElements,                               # creates yet another Rule
+         title:             "Reduce the number of DOM elements",
+         weight:            3,
+         max_allowed_nodes: 900,
+         range:             250,
+         points_per_range:  10
   end
 end
