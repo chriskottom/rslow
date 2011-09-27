@@ -26,12 +26,12 @@ module RSlow
 
       rule_scores = rule_evaluations.map { |rule_eval| rule_eval[:score] }
       score = compute_weighted_average(rule_scores, rule_weights)
+
       ruleset_evaluation = {
         score: score,
         grade: RSlow::Grading.for_score(score),
         rule_evaluations: rule_evaluations
       }
-
       JSON.generate(ruleset_evaluation)
     end
 
