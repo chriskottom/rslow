@@ -8,5 +8,9 @@ RSlow.configure do
            css:       { maximum_allowed: 2, deduction: 4 },
            css_image: { maximum_allowed: 6, deduction: 3 }
          }
+    rule :Gzip,                                      # creates another Rule
+         title:     "Compress components with GZip",
+         weight:    8,
+         deduction: 11
   end
 end
