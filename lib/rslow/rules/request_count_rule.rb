@@ -22,9 +22,7 @@ module RSlow
           when :css
             resource.stylesheets.count
           when :css_image
-           catted_content = resource.stylesheets.reduce("") {|cat, css| cat + css.contents }
-           md = catted_content.match(/background(-image)?\s*\:.*url\((.*)\)/)
-           md.to_a.uniq.count
+            count_unique_css_images(resource)
           else
             0
           end
@@ -33,6 +31,15 @@ module RSlow
         end
 
         Rule::MAX_SCORE - deductions.reduce(:+)
+      end
+
+      def count_unique_css_images(resource)
+        css_resources = resource.stylesheets
+        css_images = css_resources.reduce([]) do |images, css|
+          images += css.images
+        end
+        css_image_urls = css_images.map { |image| image.url.to_s }
+        css_image_urls.uniq.count
       end
 
       def compute_deduction(count, rule_config)
