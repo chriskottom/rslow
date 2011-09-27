@@ -24,7 +24,10 @@ module RSlow
         css_content = self.contents
         image_urls = css_content.scan(/url\(([^\)]*)\)/).flatten
         image_urls.each do |url|
-          children << RSlow::Resources::BasicResource.new(url, self)
+          unless url.nil? || url.empty?
+            res = RSlow::Resources::BasicResource.new(url, self) rescue nil
+            @children << res if res
+          end
         end
       end
     end

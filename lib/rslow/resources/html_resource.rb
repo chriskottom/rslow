@@ -15,6 +15,8 @@ module RSlow
         fetch_script_resources
         fetch_stylesheet_resources
         fetch_image_resources
+
+
       end
 
 
@@ -22,28 +24,34 @@ module RSlow
       def fetch_script_resources
         @doc.xpath(".//script").each do |js|
           url = js["src"]
-          res = BasicResource.new(url, self) unless url.nil? || url.empty?
-          @scripts << res
-          @children << res
-        end 
+          unless url.nil? || url.empty?
+            res = JsResource.new(url, self) rescue nil
+            @scripts << res if res
+            @children << res if res
+          end
+        end
       end
 
       def fetch_stylesheet_resources
         @doc.xpath(".//link").each do |css|
           next unless css["rel"] == "stylesheet"
           url = css["href"]
-          res = CssResource.new(url, self) unless url.nil? || url.empty?
-          @stylesheets << res
-          @children << res
+          unless url.nil? || url.empty?
+            res = CssResource.new(url, self) rescue nil
+            @stylesheets << res if res
+            @children << res if res
+          end
         end 
       end
 
       def fetch_image_resources
         @doc.xpath(".//img").each do |img|
           url = img["src"]
-          res = BasicResource.new(url, self) unless url.nil? || url.empty?
-          @images << res
-          @children << res
+          unless url.nil? || url.empty?
+            res = BasicResource.new(url, self) rescue nil
+            @images << res if res
+            @children << res if res
+          end
         end
       end
     
