@@ -29,6 +29,14 @@ module RSlow
       @headers["Content-Type"]
     end
 
+    def content_encoding
+      @headers["Content-Encoding"]
+    end
+
+    def content_length
+      @headers["Content-Length"]
+    end
+
     private
     def parse_url_string(url)
       url = URI.escape(url)
