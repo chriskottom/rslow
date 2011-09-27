@@ -15,10 +15,10 @@ class ResourceTest < Test::Unit::TestCase
 
     resource = RSlow::Resources::BasicResource.new(TEST_URL)
     assert_equal(URI.parse(TEST_URL), resource.url)
-    assert_equal(HTTP_RESPONSE, resource.headers)
-    assert_equal(HTTP_RESPONSE[:body], resource.contents)
-    assert_equal(HTTP_RESPONSE[:code], resource.code)
-    assert_equal(HTTP_RESPONSE[:message], resource.message)
+    assert_equal(HTTP_SUCCESS, resource.headers)
+    assert_equal(TEST_HTML, resource.contents)
+    assert_equal(HTTP_SUCCESS[:code], resource.code)
+    assert_equal(HTTP_SUCCESS[:message], resource.message)
   end
 
   def test_resource_with_relative_url
