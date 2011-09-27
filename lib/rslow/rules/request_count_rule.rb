@@ -1,19 +1,8 @@
 module RSlow
   module Rules
     class RequestCountRule < RSlow::Rule
-      def evaluate(resource)
-        score = compute_score(resource)
-
-        {
-           title: self[:title],
-           score: score,
-           grade: RSlow::Grading.for_score(score)
-         }
-      end
-
-      private
       def compute_score(resource)
-        deductions = []
+        total_deductions = 0
 
         self[:resources].each do |type, properties|
           resource_count = case type
@@ -27,10 +16,10 @@ module RSlow
             0
           end
 
-          deductions << compute_deduction(resource_count, properties)
+          total_deductions += compute_deduction(resource_count, properties)
         end
 
-        Rule::MAX_SCORE - deductions.reduce(:+)
+        Rule::MAX_SCORE - total_deductions
       end
 
       def count_unique_css_images(resource)

@@ -22,5 +22,12 @@ module RSlow
     def initialize(options={})
       super(options)
     end
+
+    def evaluate(resource)
+        score = compute_score(resource)
+        grade = RSlow::Grading.for_score(score)
+        
+        { title: self[:title], score: score, grade: grade }
+    end
   end
 end

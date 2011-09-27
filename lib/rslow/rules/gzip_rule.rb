@@ -4,23 +4,12 @@ module RSlow
       GZIP_ENCODING         = "gzip"
       MAX_UNCOMPRESSED_SIZE = 500
 
-      def evaluate(resource)
-        score = compute_score(resource)
-
-        {
-           title: self[:title],
-           score: score,
-           grade: RSlow::Grading.for_score(score)
-         }
-      end
-
       def compute_score(root_resource)
-        tested_resources = []
-        tested_resources << root_resource
-        tested_resources += root_resource.scripts
-        tested_resources += root_resource.stylesheets
+        resources_to_test = [ root_resource ] +
+                            root_resource.scripts + 
+                            root_resource.stylesheets
 
-        uncompressed = tested_resources.select do |resource|
+        uncompressed = resources_to_test.select do |resource|
           GZIP_ENCODING == resource.content_encoding ||
             (resource.content_length && 
              resource.content_length <= MAX_UNCOMPRESSED_SIZE)
