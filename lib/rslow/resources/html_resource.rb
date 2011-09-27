@@ -6,11 +6,11 @@ module RSlow
     class HtmlResource
       include Resource
 
-      attr_accessor  :doc, :scripts, :stylesheets, :images, :children
+      attr_accessor  :document, :scripts, :stylesheets, :images, :children
 
       def setup
         @children = []
-        @doc = Nokogiri::HTML(@contents)
+        @document = Nokogiri::HTML(@contents)
 
         fetch_script_resources
         fetch_stylesheet_resources
@@ -22,7 +22,7 @@ module RSlow
       def fetch_script_resources
         @scripts = []
 
-        @doc.xpath(".//script").each do |js|
+        @document.xpath(".//script").each do |js|
           url = js["src"]
           unless url.nil? || url.empty?
             res = JsResource.new(url, self) rescue nil
@@ -35,7 +35,7 @@ module RSlow
       def fetch_stylesheet_resources
         @stylesheets = []
 
-        @doc.xpath(".//link").each do |css|
+        @document.xpath(".//link").each do |css|
           next unless css["rel"] == "stylesheet"
           url = css["href"]
           unless url.nil? || url.empty?
@@ -49,7 +49,7 @@ module RSlow
       def fetch_image_resources
         @images = []
 
-        @doc.xpath(".//img").each do |img|
+        @document.xpath(".//img").each do |img|
           url = img["src"]
           unless url.nil? || url.empty?
             res = BasicResource.new(url, self) rescue nil
