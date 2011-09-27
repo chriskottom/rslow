@@ -1,7 +1,5 @@
 require_relative "test_helper"
 
-require "test/unit"
-require "rslow"
 
 class RuleTest < Test::Unit::TestCase
 
