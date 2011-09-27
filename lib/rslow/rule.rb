@@ -22,6 +22,5 @@ module RSlow
     def initialize(options={})
       super(options)
     end
-
   end
 end
