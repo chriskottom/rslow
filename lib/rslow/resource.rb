@@ -5,7 +5,7 @@ require "uri"
 
 module RSlow
   module Resource
-    attr_accessor  :parent, :url, :headers, :code, :message, :contents
+    attr_reader  :parent, :url, :headers, :code, :message, :contents
 
     def initialize(url, parent=nil)
       @parent = parent
@@ -30,8 +30,10 @@ module RSlow
       url = URI.escape(url)
       if url =~ /\Ahttp:\/\//
         @url = URI.parse(url)
-      else
+      elsif @parent
         @url = @parent.url.merge(url)
+      else
+        raise URI::InvalidURIError, "Cannot process relative URI without parent"
       end
     end
 
