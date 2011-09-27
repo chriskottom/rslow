@@ -7,9 +7,6 @@ require "uri"
 class ResourceTest < Test::Unit::TestCase
   include TestHelper
 
-  TEST_URL          = "http://www.ruby-lang.org/en/"
-  TEST_RELATIVE_URL = "/images/download.gif"
-
   def test_resource_creation
     Net::HTTP.any_instance.expects(:get).returns(mock_http_response)
 
