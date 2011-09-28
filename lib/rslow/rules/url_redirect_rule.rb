@@ -1,7 +1,7 @@
 module RSlow
   module Rules
     class UrlRedirectRule < RSlow::Rule
-      def compute_score(resource)
+      def compute_deductions(resource)
         all_resources = [ resource ] +
                         resource.scripts +
                         resource.stylesheets +
@@ -10,7 +10,7 @@ module RSlow
           resource.code =~ /\A(301|302)\Z/
         end
 
-        Rule::MAX_SCORE - (redirect_resources.count * self[:deduction_per_300])
+        redirect_resources.count * self[:points_per_redirect]
       end
     end
   end

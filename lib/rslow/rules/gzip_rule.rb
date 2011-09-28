@@ -4,7 +4,7 @@ module RSlow
       GZIP_ENCODING         = "gzip"
       MAX_UNCOMPRESSED_SIZE = 500
 
-      def compute_score(root_resource)
+      def compute_deductions(root_resource)
         resources_to_test = [ root_resource ] +
                             root_resource.scripts + 
                             root_resource.stylesheets
@@ -15,7 +15,7 @@ module RSlow
              resource.content_length <= MAX_UNCOMPRESSED_SIZE)
         end
 
-        RSlow::Rule::MAX_SCORE - (uncompressed.count * self[:deduction])
+        uncompressed.count * self[:deduction]
       end
     end
   end

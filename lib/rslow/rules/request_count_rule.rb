@@ -1,7 +1,7 @@
 module RSlow
   module Rules
     class RequestCountRule < RSlow::Rule
-      def compute_score(resource)
+      def compute_deductions(resource)
         total_deductions = 0
 
         self[:resources].each do |type, properties|
@@ -19,7 +19,7 @@ module RSlow
           total_deductions += compute_deduction(resource_count, properties)
         end
 
-        Rule::MAX_SCORE - total_deductions
+        total_deductions
       end
 
       def count_unique_css_images(resource)
@@ -28,6 +28,7 @@ module RSlow
           images += css.images
         end
         css_image_urls = css_images.map { |image| image.url.to_s }
+
         css_image_urls.uniq.count
       end
 
