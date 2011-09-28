@@ -23,41 +23,54 @@ module TestHelper
   ]
 
   def mock_http_response
-    http_mock = mock("Net::HTTPResponse")
-    http_mock.stubs(code:     HTTP_SUCCESS[:code],
-                    message:  HTTP_SUCCESS[:message],
-                    body:     TEST_HTML,
-                    to_hash:  HTTP_SUCCESS)
-    http_mock
+    unless @http_mock
+      @http_mock = mock("Net::HTTPResponse")
+      @http_mock.stubs(code:     HTTP_SUCCESS[:code],
+                       message:  HTTP_SUCCESS[:message],
+                       body:     TEST_HTML,
+                       to_hash:  HTTP_SUCCESS)
+    end
+
+    @http_mock
   end
 
   def mock_css_response
-    css_mock = mock("Net::HTTPResponse")
-    css_mock.stubs(code:     HTTP_SUCCESS[:code],
-                   message:  HTTP_SUCCESS[:message],
-                   body:     TEST_CSS,
-                   to_hash:  HTTP_SUCCESS)
-    css_mock
+    unless @css_mock
+      @css_mock = mock("Net::HTTPResponse")
+      @css_mock.stubs(code:     HTTP_SUCCESS[:code],
+                      message:  HTTP_SUCCESS[:message],
+                      body:     TEST_CSS,
+                      to_hash:  HTTP_SUCCESS)
+    end
+
+    @css_mock
   end
 
   def mock_image_resource
-    image_mock = mock("RSlow::Resources::Basic_Resource")
-    image_mock.stubs(code:         GIF_SUCCESS[:code],
-                     message:      GIF_SUCCESS[:message],
-                     body:         "",
-                     content_type: GIF_SUCCESS[:"Content-Type"])
-    image_mock
+    unless @image_mock
+      @image_mock = mock("RSlow::Resources::Basic_Resource")
+      @image_mock.stubs(code:         GIF_SUCCESS[:code],
+                        message:      GIF_SUCCESS[:message],
+                        body:         "",
+                        content_type: GIF_SUCCESS[:"Content-Type"])
+    end
+
+    @image_mock
   end
 
   def mock_rules
-    rule_mocks = []
-    RULE_CONFIG.each do |config|
-      rule_mock = mock("RSlow::Rule")
-      rule_mock.stubs(config)
-      rule_mock.stubs(:[]).with(:weight).returns(config[:weight])
-      rule_mocks << rule_mock
+    unless @rule_mocks
+      @rule_mocks = []
+      RULE_CONFIG.each do |config|
+        rule_mock = mock("RSlow::Rule")
+        rule_mock.stubs(config)
+        rule_mock.stubs(:[]).with(:weight).returns(config[:weight])
+        @rule_mocks << rule_mock
+      end
+
     end
-    rule_mocks
+
+    @rule_mocks
   end
 
   def weighted_average_of_fake_scores(scores, weights)
