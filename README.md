@@ -22,32 +22,62 @@ The general method of evaluating a web page will involve two distinct processing
 steps: building the resource tree and evaluation.
 
 
-### Building the Resource Tree
-TBD
+### The Resource Tree
+The domain model for this tool is the DOM of the target web page.  This is
+represented in the application as a tree of linked objects which store 
+information about the requests and responses for the various resources
+comprising the page.
 
 
-### Evaluation
-TBD
+### Rules and Rulesets
+Rules within the framework evaluate the tree of resources in order to determine
+how well a page will conform to a given best practice.  Based on this evaluation
+the `Rule` object will calculate a score out of a possible 100 points and assign
+a letter grade A-F.  Most of the logic for evaluation is contained in the `Rule`
+class whereas concrete implementations will define how deductions from the
+maximum possible score should be calculated for a given resource tree by
+defining the `#compute_deductions` method.
+
+Rulesets are defined using a simple Ruby DSL syntax and identify a set of rules
+that should be calculated for a resource tree as well as the relative numeric
+weights that should be given to each rule.  For example:
+
+```ruby
+RSlow.configure do
+  ruleset :simple_ruleset do                         # creates a Ruleset
+    rule :RequestCount,                              # creates a Rule
+         title:             "Minimize HTTP requests",
+         weight:            8,
+         resources: {
+           script:    { maximum_allowed: 3, deduction: 3 },
+           css:       { maximum_allowed: 2, deduction: 4 },
+           css_image: { maximum_allowed: 6, deduction: 3 }
+         }
+    rule :Gzip,                                      # creates another Rule
+         title:             "Compress components with GZip",
+         weight:            8,
+         deduction:         11
+```
+
+Ruleset evaluations are returned as strings containing JSON-formatted text.
 
 
 ## Sample Code
 Try running the example program.  At present, it implements and configures a
-simple ruleset with only a single rule, but it demonstrates the basic flow
+simple ruleset with a few basic rules, but it demonstrates the basic flow
 described above and the method of configuration of rule and scoring parameters.
 
 ```ruby
-./examples/simple_test.rb ./examples/simple_ruleset.yml <YOUR_URL_HERE>
+./examples/simple_test.rb < YOUR URL >
 ```
 
 
 ## Future Enhancements
-
-- Tests
-- Refactoring for more efficient processing, better performance
-- More out-of-box rules
-- Packaging as a gem
+- Performance improvements - creating fewer objects, lazy tree node creation,
+  only making HEAD requests for resources that won't be parsed
 - Create a simple interactive command-line client
-- JSON output
+- Gem packaging
+- More out-of-box rules
 
 
 ## References
