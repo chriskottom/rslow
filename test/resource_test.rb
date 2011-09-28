@@ -12,7 +12,7 @@ class ResourceTest < Test::Unit::TestCase
 
     resource = RSlow::Resources::BasicResource.new(TEST_URL)
     assert_equal(URI.parse(TEST_URL), resource.url)
-    assert_equal(HTTP_SUCCESS, resource.headers)
+    assert_same(mock_http_response, resource.headers)
     assert_equal(TEST_HTML, resource.contents)
     assert_equal(HTTP_SUCCESS[:code], resource.code)
     assert_equal(HTTP_SUCCESS[:message], resource.message)

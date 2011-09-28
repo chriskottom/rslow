@@ -5,6 +5,15 @@ require "uri"
 
 module RSlow
   module Resource
+    EXPIRES_DATE_FORMAT = "%a, %d %b %Y %H:%M:%S %Z"
+    HEADER_NAMES = {
+      content_type:       "Content-Type",
+      content_encoding:   "Content-Encoding",
+      content_length:     "Content-Length",
+      expires:            "Expires",
+      cache_control:      "Cache-Control"
+    }
+
     attr_reader  :parent, :url, :headers, :code, :message, :contents
 
     def initialize(url, parent=nil)
@@ -16,16 +25,27 @@ module RSlow
     end
 
     def content_type
-      @headers["Content-Type"]
+      @headers[HEADER_NAMES[:content_type]]
     end
 
     def content_encoding
-      @headers["Content-Encoding"]
+      @headers[HEADER_NAMES[:content_encoding]]
+    end
+
+    def cache_control
+      @headers[HEADER_NAMES[:cache_control]]
     end
 
     def content_length
-      @headers["Content-Length"]
+      header_value = @headers[HEADER_NAMES[:content_length]]
+      header_value && header_value.to_i
     end
+
+    def expires
+      header_value = @headers[HEADER_NAMES[:expires]]
+      header_value && DateTime.strptime(header_value, EXPIRES_DATE_FORMAT)
+    end
+
 
     private
     def parse_url_string(url)
@@ -46,7 +66,7 @@ module RSlow
       request.use_ssl = true if @url.scheme == "https"
       response = request.get(@url.request_uri)
 
-      @headers = response.to_hash
+      @headers = response
       @code = response.code
       @message = response.message
       @contents = response.body
