@@ -1,17 +1,17 @@
 RSlow.configure do
   ruleset :simple_ruleset do                         # creates a Ruleset
     rule :RequestCount,                              # creates a Rule
-         title:     "Minimize HTTP requests",
-         weight:    8,
+         title:             "Minimize HTTP requests",
+         weight:            8,
          resources: {
            script:    { maximum_allowed: 3, deduction: 3 },
            css:       { maximum_allowed: 2, deduction: 4 },
            css_image: { maximum_allowed: 6, deduction: 3 }
          }
     rule :Gzip,                                      # creates another Rule
-         title:     "Compress components with GZip",
-         weight:    8,
-         deduction: 11
+         title:             "Compress components with GZip",
+         weight:            8,
+         deduction:         11
     rule :DomElements,                               # creates yet another Rule
          title:             "Reduce the number of DOM elements",
          weight:            3,
@@ -19,8 +19,12 @@ RSlow.configure do
          range:             250,
          points_per_range:  10
     rule :UrlRedirect,                               # creates still another Rule
-         title:             "Avoid URL redirects",
-         weight:            4,
-         deduction_per_300: 10
+         title:               "Avoid URL redirects",
+         weight:              4,
+         points_per_redirect: 10
+    rule :Expires,                                   # OMG! Another Rule!
+         title:             "Add Expires headers",
+         weight:            10,
+         deduction:         11
   end
 end
