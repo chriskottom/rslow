@@ -81,9 +81,12 @@ described above and the method of configuration of rule and scoring parameters.
 
 
 ## References
-<http://developer.yahoo.com/performance/rules.html>  
-<http://developer.yahoo.com/yslow/help/>  
-<http://code.google.com/speed/page-speed/>
+- Yahoo! YSlow
+  - [Best Practices for Speeding Up Your Web Site](http://developer.yahoo.com/performance/rules.html)
+  - [YSlow User Guide](http://developer.yahoo.com/yslow/help/)
+  - [Ruleset Matrix](http://developer.yahoo.com/yslow/matrix/)
+- Google Page Speed
+  - [Official Google Homepage](http://code.google.com/speed/page-speed/)
 
 
 
